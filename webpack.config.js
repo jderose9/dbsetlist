@@ -22,6 +22,8 @@ module.exports = {
     // static assets
     new CopyWebpackPlugin([
         { from: './assets/img/', to: 'assets/img/' },
+        { from: './src/index.html', to: 'index.html' },
+        { from: './src/robots.txt', to: 'robots.txt' },
     ])
   ],
 
