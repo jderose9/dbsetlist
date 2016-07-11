@@ -35,6 +35,8 @@ export class AppComponent {
                             g.Song = this.songs[g.SongId];
                         });
             });
+            if(s.Annotations)
+                s.AnnotationArray = Object.keys(s.Annotations).map(i => s.Annotations[i])
         });
     }
 }

@@ -11,6 +11,7 @@ module.exports = {
   devtool: 'cheap-module-source-map',  
   debug: true,
   output: {
+    path: "./dist",
     filename: "bundle.js",
     sourceMapFilename: '[name].map'
   },
@@ -18,14 +19,10 @@ module.exports = {
     new ForkCheckerPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js' }),
-        // static assets
+    // static assets
     new CopyWebpackPlugin([
-        { from: './node_modules/font-awesome/fonts/', to: 'assets/fonts/font-awesome/' },
-    ]),
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
-    })
+        { from: './assets/img/', to: 'assets/img/' },
+    ])
   ],
 
   resolve: {
@@ -45,7 +42,7 @@ module.exports = {
             
       { test: /\.json$/,  loader: 'json-loader' },           
       
-      { test: /\.svg$/, loader: 'raw-loader' },
+      { test: /.*\.(gif|png|jpe?g|svg)$/i, loader: 'raw-loader' },
             
       { test: /\.html$/,  loader: 'raw-loader', exclude: [ root('src/index.html') ] }                 
     ],

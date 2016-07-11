@@ -1,9 +1,28 @@
-<div *ngFor="let setlist of setlists">
-    {{setlist.Date | moment}} - {{setlist.Venue.Name}} - {{setlist.Venue.City}}{{setlist.Venue.City && setlist.Venue.State ? ', ' : ''}}{{setlist.Venue.State}}
-    <div *ngFor="let set of setlist.Sets">
-        <strong *ngIf="set.DisplayName">{{set.DisplayName}}: </strong>
-        <span *ngFor="let setSong of set.SetSongs">{{setSong.Song.Name}}, </span>
+<div class="row align-middle">
+    <div class="columns shrink">
+        <img src="assets/img/circle_logo.png" /> 
     </div>
-    
+    <div class="columns">
+        <span class="header-label">Disco Biscuits Setlist Archive</span>
+    </div>
+</div>
+<div *ngFor="let setlist of setlists" class="row setlist">
+    <div class="columns">
+        <div class="setlist-title"><span class="date">{{setlist.Date | moment}}</span> - {{setlist.Venue.Name}} - {{setlist.Venue.City}}{{setlist.Venue.City && setlist.Venue.State ? ', ' : ''}}{{setlist.Venue.State}}</div>
+        <div class="comments">{{setlist.Comments}}</div>
+        <div class="sets">
+            <div *ngFor="let set of setlist.Sets" class="set">
+                <span *ngIf="set.DisplayName" class="setLabel">{{set.DisplayName}}: </span>
+                <span *ngFor="let setSong of set.SetSongs; let i=index">
+                    {{setSong.Song.Name}}<sup *ngFor="let annotationNumber of setSong.AnnotationNumbers">{{annotationNumber}}</sup>{{setSong.IsSegued ? ' > ' : (i == (set.SetSongs.length - 1) ? '' : ', ')}}
+                </span>
+            </div>
+        </div>
+        <div *ngIf="setlist.AnnotationArray?.length" class="annotations">
+            <div *ngFor="let annotation of setlist.AnnotationArray" class="annotation">
+                {{annotation.Number}}. {{annotation.Text}}
+            </div>
+        </div>
+    </div>
 </div>
     
