@@ -59,22 +59,29 @@
     <input class="input-group-field" type="text" placeholder="Search" autofocus [inputDebounce] [value]="searchValue" (value)="search($event)" />
 </div>
 
-<div *ngFor="let setlist of setlists | setlistSearch:searchValue" class="row setlist">
-    <div class="columns">
-        <div class="setlist-title"><span class="date">{{setlist.DateDisplay}}</span> - {{setlist.Venue.Name}} - {{setlist.Venue.City}}{{setlist.Venue.City && setlist.Venue.State ? ', ' : ''}}{{setlist.Venue.State}}</div>
-        <div class="comments">{{setlist.Comments}}</div>
-        <div class="sets">
-            <div *ngFor="let set of setlist.Sets" class="set">
-                <span *ngIf="set.DisplayName" class="setLabel">{{set.DisplayName}}: </span>
-                <span *ngFor="let setSong of set.SetSongs; let i=index">
-                    {{setSong.Song.Name}}<sup *ngFor="let annotationNumber of setSong.AnnotationNumbers">{{annotationNumber}}</sup>{{setSong.IsSegued ? ' > ' : (i == (set.SetSongs.length - 1) ? '' : ', ')}}
-                </span>
+<div *ngFor="let setlist of setlists | setlistSearch:searchValue; #i = index; #last = last">
+    <div class="row setlist">
+        <div class="columns">
+            <div class="setlist-title"><span class="date">{{setlist.DateDisplay}}</span> - {{setlist.Venue.Name}} - {{setlist.Venue.City}}{{setlist.Venue.City && setlist.Venue.State ? ', ' : ''}}{{setlist.Venue.State}}</div>
+            <div class="comments">{{setlist.Comments}}</div>
+            <div class="sets">
+                <div *ngFor="let set of setlist.Sets" class="set">
+                    <span *ngIf="set.DisplayName" class="setLabel">{{set.DisplayName}}: </span>
+                    <span *ngFor="let setSong of set.SetSongs; let i=index">
+                        {{setSong.Song.Name}}<sup *ngFor="let annotationNumber of setSong.AnnotationNumbers">{{annotationNumber}}</sup>{{setSong.IsSegued ? ' > ' : (i == (set.SetSongs.length - 1) ? '' : ', ')}}
+                    </span>
+                </div>
+            </div>
+            <div *ngIf="setlist.AnnotationArray?.length" class="annotations">
+                <div *ngFor="let annotation of setlist.AnnotationArray" class="annotation">
+                    {{annotation.Number}}. {{annotation.Text}}
+                </div>
             </div>
         </div>
-        <div *ngIf="setlist.AnnotationArray?.length" class="annotations">
-            <div *ngFor="let annotation of setlist.AnnotationArray" class="annotation">
-                {{annotation.Number}}. {{annotation.Text}}
-            </div>
+    </div>
+    <div *ngIf="last" class="row">
+        <div class="columns">
+            Displaying {{i + 1}} shows.
         </div>
     </div>
 </div>
