@@ -8,6 +8,18 @@ body {
     font-size: 40px;
 }
 
+.search {
+    max-width: 75rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 30px;
+
+    img {
+        max-width: none;
+    }
+}
+
 .setlist-title {
     color: #21618C;
 }
