@@ -67,10 +67,11 @@ export class AppComponent {
     }
 
     searchYear(year) {
+        this._changeSearchAttr("month");
         this._changeSearchAttr("year", year);
     }
 
-    private _changeSearchAttr(attrName, newValue) {
+    private _changeSearchAttr(attrName, newValue?) {
         let newSearchVal = this.searchValue.split(" ").filter(se => !se.toLowerCase().startsWith(attrName)).join(' ');
 
         if(newValue) {
