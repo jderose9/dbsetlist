@@ -1,5 +1,7 @@
 import {Component, Inject, provide, ViewEncapsulation} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
+import {Http} from '@angular/http';
+import { Observable } from 'rxjs';
 import {InputDebounceDirective} from './directives/input-debounce.directive'
 import {SetlistSearchPipe} from './pipes/setlist-search.pipe'
 import * as moment from 'moment';
@@ -13,38 +15,47 @@ import * as moment from 'moment';
     encapsulation: ViewEncapsulation.None,
     template: require('./app.component.html'),    
     directives: [ROUTER_DIRECTIVES, InputDebounceDirective],
-    pipes: [SetlistSearchPipe]
+    pipes: [SetlistSearchPipe],
 })
 
 export class AppComponent {  
     searchValue: string;
+    isLoading: boolean = true;
       
     setlists: any[];
     songs: any;
     venues: any;
 
-    constructor() {
-        this.searchValue = '';        
+    constructor(private http: Http) {
+        this.searchValue = '';   
+        Observable.forkJoin([
+            this.http.get('assets/data/setlists.json').map(res => res.json()),
+            this.http.get('assets/data/songs.json').map(res => res.json()),
+            this.http.get('assets/data/venues.json').map(res => res.json())
+        ], (setlists, songs, venues) => {
+            this.setlists = setlists;
+            this.songs = songs;
+            this.venues = venues;
+
+            this.setlists.forEach(s => { 
+                s.Venue = this.venues[s.VenueId];
+                s.DateMoment = moment(s.Date);
+                s.DateDisplay = s.DateMoment.format('M/D/YYYY');
+                if(s.Sets)
+                    s.Sets.forEach(t => {
+                        if(t.SetSongs)
+                            (<any[]>t.SetSongs).forEach(g => {
+                                g.Song = this.songs[g.SongId];
+                            });
+                });
+                if(s.Annotations)
+                    s.AnnotationArray = Object.keys(s.Annotations).map(i => s.Annotations[i]);
+            });
+            this.isLoading = false;
+        }).subscribe();    
     }
 
     ngOnInit() {
-        this.setlists = require('../../assets/data/setlists.json');
-        this.songs = require('../../assets/data/songs.json');
-        this.venues = require('../../assets/data/venues.json');
-        this.setlists.forEach(s => { 
-            s.Venue = this.venues[s.VenueId];
-            s.DateMoment = moment(s.Date);
-            s.DateDisplay = s.DateMoment.format('M/D/YYYY');
-            if(s.Sets)
-                s.Sets.forEach(t => {
-                    if(t.SetSongs)
-                        (<any[]>t.SetSongs).forEach(g => {
-                            g.Song = this.songs[g.SongId];
-                        });
-            });
-            if(s.Annotations)
-                s.AnnotationArray = Object.keys(s.Annotations).map(i => s.Annotations[i]);
-        });
     }
 
     search(searchVal) {

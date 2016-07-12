@@ -25,12 +25,12 @@ module.exports = {
         { from: './src/index.html', to: 'index.html' },
         { from: './src/robots.txt', to: 'robots.txt' },
     ]),
-    // new UglifyJsPlugin({
-    //   beautify: false,
-    //   mangle: true,
+    new UglifyJsPlugin({
+      beautify: false,
+      mangle: true,
     
-    //   comments: false
-    // })
+      comments: false
+    })
   ],
 
   resolve: {
@@ -56,20 +56,20 @@ module.exports = {
             
       { test: /\.html$/,  loader: 'html-loader', exclude: [ root('src/index.html') ] }                 
     ],
-    noParse: [ path.join(__dirname, 'node_modules', 'angular2', 'bundles') ]
+    noParse: [ path.join(__dirname, 'node_modules', 'angular2', 'bundles') ],
   },
-  
+
   htmlLoader: {
-      minimize: true,
-      removeAttributeQuotes: false,
-      caseSensitive: true,
-      customAttrSurround: [
-        [/#/, /(?:)/],
-        [/\*/, /(?:)/],
-        [/\[?\(?/, /(?:)/]
-      ],
-      customAttrAssign: [/\)?\]?=/]
-    },
+    minimize: true,
+    removeAttributeQuotes: false,
+    caseSensitive: true,
+    customAttrSurround: [
+      [/#/, /(?:)/],
+      [/\*/, /(?:)/],
+      [/\[?\(?/, /(?:)/]
+    ],
+    customAttrAssign: [/\)?\]?=/]
+  },
 
   devServer: {
     historyApiFallback: true
