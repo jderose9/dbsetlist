@@ -7,29 +7,6 @@
     </head>
     <body>
         <dbs-app>loading...</dbs-app>
-        <script>
-            // function.name (all IE)
-            /*! @source http://stackoverflow.com/questions/6903762/function-name-not-supported-in-ie*/
-            if (!Object.hasOwnProperty('name')) {
-                Object.defineProperty(Function.prototype, 'name', {
-                    get: function() {
-                    var matches = this.toString().match(/^\s*function\s*(\S*)\s*\(/);
-                    var name = matches && matches.length > 1 ? matches[1] : "";
-                    // For better performance only parse once, and then cache the
-                    // result through a new accessor for repeated access.
-                    Object.defineProperty(this, 'name', {value: name});
-                    return name;
-                    }
-                });
-            }
-            
-            // shim for missing classList on svg elements in IE11
-            // @source https://github.com/angular/angular/issues/6327
-            if (!("classList" in document.createElementNS("http://www.w3.org/2000/svg","g"))) {
-                var descr = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'classList');
-                Object.defineProperty(SVGElement.prototype, 'classList', descr);
-            }
-        </script>
         <script src="vendor.bundle.js"></script>
         <script src="bundle.js"></script>
     </body>

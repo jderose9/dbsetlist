@@ -1,24 +1,21 @@
 @charset 'UTF-8';
 
-//Import app settings (which imports foundation)
 @import 'app.settings'; 
 
-//Only include what we need from foundation
 @include foundation-global-styles;
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-forms;
 @include foundation-button;
-@include foundation-button-group;
-@include foundation-callout;
+//@include foundation-button-group;
+//@include foundation-callout;
 @include foundation-label;
-@include foundation-menu;
+//@include foundation-menu;
 @include foundation-typography;
 @include foundation-visibility-classes;
 @include foundation-float-classes;
-@include foundation-table;
-@include foundation-pagination;
-@include foundation-tooltip;
+//@include foundation-table;
+//@include foundation-pagination;
+//@include foundation-tooltip;
 
-//Import the app's global styles
 @import 'app.global';

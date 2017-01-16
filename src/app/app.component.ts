@@ -27,7 +27,7 @@ export class AppComponent {
     venues: any;
 
     constructor(private http: Http) {
-        this.searchValue = '';   
+        this.searchValue = 'year:2016';
         Observable.forkJoin([
             this.http.get('assets/data/setlists.json').map(res => res.json()),
             this.http.get('assets/data/songs.json').map(res => res.json()),
